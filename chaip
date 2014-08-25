@@ -1,0 +1,50 @@
+#!/bin/env python
+
+#from tkinter import *
+import re
+import urllib
+import json
+import os
+import sys
+import fileinput
+
+helps = '''
+Usage:
+
+	traceroute -w 1 -I www.taobao.com | python chaip
+
+Powered by zzlyzq@126.com
+'''
+
+class IpS():
+    def __init__(self,ip):
+        self.apiUrlTaobao = 'http://ip.taobao.com/service/getIpInfo.php'
+        self.ip = ip
+    def searchByTaobao(self):
+        params = urllib.urlencode({'ip':self.ip})
+        f = urllib.urlopen("http://ip.taobao.com/service/getIpInfo.php?%s"%params)
+        result = f.readlines()
+        data = json.loads(result[0], encoding='Utf-8')
+        # print data['data']
+        print data['data']['country'], data['data']['area'], data['data']['region'], data['data']['isp'],
+        #return data
+
+try:
+    #string = sys.stdin
+    for line in fileinput.input():
+        print ""
+        string = line
+        string = string.replace("\n","")
+        ips = re.findall('\d+\.\d+\.\d+\.\d+',string)
+        if len(ips) == 0:
+            print string,
+        else:
+            ip = ips[0]
+            ipstring = IpS(ip)
+            print string,
+            ipstring.searchByTaobao()
+except:
+    print "Error",
+    pass
+    #print helps
+
