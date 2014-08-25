@@ -1,6 +1,6 @@
 #!/bin/env python
+# -*- coding: utf-8 -*-
 
-#from tkinter import *
 import re
 import urllib
 import json
@@ -30,9 +30,8 @@ class IpS():
         #return data
 
 try:
-    #string = sys.stdin
-    for line in fileinput.input():
-        print ""
+    for line in fileinput.input(): # 使用fileinput，所以在第一个命令执行完全完成后才会将参数传给chaip
+        print "" # 只是分割而已，因为定制化的输出(原本的信息，以及末尾添加的新增的地区信息)中不会出现回车
         string = line
         string = string.replace("\n","")
         ips = re.findall('\d+\.\d+\.\d+\.\d+',string)
@@ -46,5 +45,4 @@ try:
 except:
     print "Error",
     pass
-    #print helps
 
